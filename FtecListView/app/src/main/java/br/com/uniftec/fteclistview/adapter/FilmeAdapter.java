@@ -53,17 +53,17 @@ public class FilmeAdapter extends ArrayAdapter<Filme> implements View.OnClickLis
         boolean favorito = preferences.getBoolean(filme.getTitulo(), false);
 
         textView.setText(filme.getTitulo());
-        int idImagem = getContext().getResources().getIdentifier(filme.getImagem(), "drawable", getContext().getPackageName());
+//        int idImagem = getContext().getResources().getIdentifier(filme.getImagem(), "drawable", getContext().getPackageName());
         favoritar.setTag(position);
         favoritar.setOnClickListener(this);
         favoritar.setBackgroundResource(favorito ? R.drawable.botao_favoritar_preenchido : R.drawable.botao_favoritar_vazado);
 
-        try {
-            imagem.setImageDrawable(getContext().getDrawable(idImagem));
-        } catch (OutOfMemoryError e){
-            Log.d("ADAP", filme.getImagem());
-            imagem.setImageDrawable(null);
-        }
+//        try {
+//            imagem.setImageDrawable(getContext().getDrawable(idImagem));
+//        } catch (OutOfMemoryError e){
+//            Log.d("ADAP", filme.getImagem());
+//            imagem.setImageDrawable(null);
+//        }
 
         return convertView;
     }
