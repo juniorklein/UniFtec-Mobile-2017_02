@@ -1,6 +1,7 @@
 package br.com.uniftec.fteclistview.ui;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ public class ListaFilmesFragment extends Fragment implements AdapterView.OnItemC
     private ListView listViewFilmes;
     private FilmeAdapter adapter;
     private List<Filme> dataSource;
+    private ProgressDialog progressDialog;
 
     public ListaFilmesFragment() {
         // Required empty public constructor
@@ -43,7 +45,6 @@ public class ListaFilmesFragment extends Fragment implements AdapterView.OnItemC
         View view = inflater.inflate(R.layout.fragment_lista_filmes, container, false);
 
         listViewFilmes = (ListView)view.findViewById(R.id.list_view_filmes);
-
         listViewFilmes.setOnItemClickListener(this);
 
         return view;
@@ -55,6 +56,8 @@ public class ListaFilmesFragment extends Fragment implements AdapterView.OnItemC
         dataSource = new ArrayList<>();
         adapter = new FilmeAdapter(getActivity(), 0, dataSource);
         listViewFilmes.setAdapter(adapter);
+
+        progressDialog = ProgressDialog.show(getActivity(), "Aguarde", "Carregando filmes", true, false);
 
         CarregarPapularesTask task = new CarregarPapularesTask(this);
         task.execute("8cc65cc237509b082427cce84df4fe28");
@@ -78,10 +81,16 @@ public class ListaFilmesFragment extends Fragment implements AdapterView.OnItemC
         dataSource.addAll(popularResponse.getFilmes());
 
         adapter.notifyDataSetChanged();
+
+        progressDialog.dismiss();
+        progressDialog = null;
     }
 
     @Override
     public void falha(String mensagem) {
+        progressDialog.dismiss();
+        progressDialog = null;
+
         Toast.makeText(getActivity(), mensagem, Toast.LENGTH_LONG).show();
     }
 }

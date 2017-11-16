@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import br.com.uniftec.fteclistview.R;
@@ -53,17 +55,18 @@ public class FilmeAdapter extends ArrayAdapter<Filme> implements View.OnClickLis
         boolean favorito = preferences.getBoolean(filme.getTitulo(), false);
 
         textView.setText(filme.getTitulo());
-//        int idImagem = getContext().getResources().getIdentifier(filme.getImagem(), "drawable", getContext().getPackageName());
+
         favoritar.setTag(position);
         favoritar.setOnClickListener(this);
         favoritar.setBackgroundResource(favorito ? R.drawable.botao_favoritar_preenchido : R.drawable.botao_favoritar_vazado);
 
-//        try {
-//            imagem.setImageDrawable(getContext().getDrawable(idImagem));
-//        } catch (OutOfMemoryError e){
-//            Log.d("ADAP", filme.getImagem());
-//            imagem.setImageDrawable(null);
-//        }
+        try {
+            String imagemUrl = "http://image.tmdb.org/t/p/w780" + filme.getImagem();
+            Picasso.with(getContext()).load(imagemUrl).into(imagem);
+        } catch (Exception e){
+
+            imagem.setImageDrawable(null);
+        }
 
         return convertView;
     }
