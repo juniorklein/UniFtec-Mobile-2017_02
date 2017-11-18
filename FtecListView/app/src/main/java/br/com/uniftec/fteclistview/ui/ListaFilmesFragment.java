@@ -21,12 +21,14 @@ import br.com.uniftec.fteclistview.R;
 import br.com.uniftec.fteclistview.adapter.FilmeAdapter;
 import br.com.uniftec.fteclistview.model.Filme;
 import br.com.uniftec.fteclistview.model.PopularResponse;
+import br.com.uniftec.fteclistview.model.Usuario;
 import br.com.uniftec.fteclistview.task.CarregarPapularesTask;
+import br.com.uniftec.fteclistview.task.IncluirUsuarioTask;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListaFilmesFragment extends Fragment implements AdapterView.OnItemClickListener, CarregarPapularesTask.CarregarPopularesDelegate {
+public class ListaFilmesFragment extends Fragment implements AdapterView.OnItemClickListener, CarregarPapularesTask.CarregarPopularesDelegate, IncluirUsuarioTask.IncluirUsuarioDelegate {
 
     private ListView listViewFilmes;
     private FilmeAdapter adapter;
@@ -82,8 +84,17 @@ public class ListaFilmesFragment extends Fragment implements AdapterView.OnItemC
 
         adapter.notifyDataSetChanged();
 
-        progressDialog.dismiss();
-        progressDialog = null;
+
+
+        Usuario usuario = new Usuario();
+        usuario.setCpf("1234568");
+        usuario.setEmail("mario@ftec.com.br");
+        usuario.setNome("Mário Klein");
+        usuario.setTelefone("1234567");
+
+        IncluirUsuarioTask incluirUsuarioTask = new IncluirUsuarioTask(this);
+        incluirUsuarioTask.execute(usuario);
+
     }
 
     @Override
@@ -92,5 +103,22 @@ public class ListaFilmesFragment extends Fragment implements AdapterView.OnItemC
         progressDialog = null;
 
         Toast.makeText(getActivity(), mensagem, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void incluirUsarioSucesso(String token) {
+
+        Toast.makeText(getActivity(), "Usuário incluído com sucesso: " + token, Toast.LENGTH_LONG).show();
+
+        progressDialog.dismiss();
+        progressDialog = null;
+    }
+
+    @Override
+    public void incluirUsuarioFalha(String mensagem) {
+        Toast.makeText(getActivity(), mensagem, Toast.LENGTH_LONG).show();
+
+        progressDialog.dismiss();
+        progressDialog = null;
     }
 }
