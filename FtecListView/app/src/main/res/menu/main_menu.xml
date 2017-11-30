@@ -9,4 +9,8 @@
         android:id="@+id/menu_musicas"
         android:title="Músicas" />
 
+    <item
+        android:id="@+id/menu_mapa"
+        android:title="Mapa" />
+
 </menu>

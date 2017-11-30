@@ -60,6 +60,9 @@ public class MenuActivity extends AbstractActivity implements NavigationView.OnN
             case R.id.menu_musicas:
                 fragment = new Fragment();
                 break;
+            case R.id.menu_mapa:
+                mudarContainerPrincipal(new IntinerarioMapFragment());
+                return true;
         }
 
         if(fragment != null){
@@ -72,6 +75,12 @@ public class MenuActivity extends AbstractActivity implements NavigationView.OnN
 
     private void mudarContainerPrincipal(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_container, fragment);
+        transaction.commit();
+    }
+
+    private void mudarContainerPrincipal(android.app.Fragment fragment){
+        android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.main_container, fragment);
         transaction.commit();
     }
